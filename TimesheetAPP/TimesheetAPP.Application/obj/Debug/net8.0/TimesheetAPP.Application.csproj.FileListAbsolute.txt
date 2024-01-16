@@ -1,0 +1,11 @@
+C:\Users\zeine\Documents\TimeSheetApplication\TimesheetAPP\TimesheetAPP.Application\bin\Debug\net8.0\TimesheetAPP.Application.deps.json
+C:\Users\zeine\Documents\TimeSheetApplication\TimesheetAPP\TimesheetAPP.Application\bin\Debug\net8.0\TimesheetAPP.Application.dll
+C:\Users\zeine\Documents\TimeSheetApplication\TimesheetAPP\TimesheetAPP.Application\bin\Debug\net8.0\TimesheetAPP.Application.pdb
+C:\Users\zeine\Documents\TimeSheetApplication\TimesheetAPP\TimesheetAPP.Application\obj\Debug\net8.0\TimesheetAPP.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\zeine\Documents\TimeSheetApplication\TimesheetAPP\TimesheetAPP.Application\obj\Debug\net8.0\TimesheetAPP.Application.AssemblyInfoInputs.cache
+C:\Users\zeine\Documents\TimeSheetApplication\TimesheetAPP\TimesheetAPP.Application\obj\Debug\net8.0\TimesheetAPP.Application.AssemblyInfo.cs
+C:\Users\zeine\Documents\TimeSheetApplication\TimesheetAPP\TimesheetAPP.Application\obj\Debug\net8.0\TimesheetAPP.Application.csproj.CoreCompileInputs.cache
+C:\Users\zeine\Documents\TimeSheetApplication\TimesheetAPP\TimesheetAPP.Application\obj\Debug\net8.0\TimesheetAPP.Application.dll
+C:\Users\zeine\Documents\TimeSheetApplication\TimesheetAPP\TimesheetAPP.Application\obj\Debug\net8.0\refint\TimesheetAPP.Application.dll
+C:\Users\zeine\Documents\TimeSheetApplication\TimesheetAPP\TimesheetAPP.Application\obj\Debug\net8.0\TimesheetAPP.Application.pdb
+C:\Users\zeine\Documents\TimeSheetApplication\TimesheetAPP\TimesheetAPP.Application\obj\Debug\net8.0\ref\TimesheetAPP.Application.dll
