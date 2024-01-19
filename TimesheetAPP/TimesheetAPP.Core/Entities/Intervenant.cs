@@ -14,14 +14,19 @@ namespace TimesheetAPP.Core.Entities
         public string Username { get; set; }
 
         [DataType(DataType.EmailAddress)]
-        public string Email { get; set; }
+        public string? Email { get; set; }
         public string Password { get; set; }
-        public DateTime DateDeNaissnace { get; set; }
-        public bool ClientExistance { get; set; }
-        public virtual IList<Projet_Intervenant> Projet_Intervenants { get; set; }
+        public DateTime? DateDeNaissnace { get; set; }
+        public bool? ClientExistance { get; set; }
+        public virtual IList<Projet_Intervenant>? Projet_Intervenants { get; set; }
         [ForeignKey(nameof(ConsomationId))]
-        public int ConsomationId { get; set; }
-        public virtual Consomation Consomation { get; set; }
+        public int? ConsomationId { get; set; }
+        public virtual Consomation? Consomation { get; set; }
+        public string? Otp { get; set; }
+
+        public bool? IsVerified { get; set; }
+
+
 
 
 

@@ -1,28 +1,37 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TimesheetAPP.Core.Entities;
+using TimesheetAPP.Core.Interfaces;
 
 namespace TimesheetAPP.Infrastructure.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IDbContext
     {
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+           : base(options)
+        {
+        }
         public DbSet<Intervenant> Intervenants { get; set; }
         public DbSet<Projet> Projets { get; set; }
         public DbSet<Solution> Solutions { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<Consomation> Consomations { get; set; }
         public DbSet<Projet_Intervenant> Projet_Intervenants { get; set; }
-
+        public async Task<int> SaveChangesAsync()
+        {
+            return await base.SaveChangesAsync();
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.
                 UseLazyLoadingProxies().
-                UseSqlServer(this.GetJsonConnectionString("appsettings.json"));
+                UseSqlServer(this.GetJsonConnectionString("appsettings.json"), options => options.CommandTimeout(120));
             base.OnConfiguring(optionsBuilder);
         }
         protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)

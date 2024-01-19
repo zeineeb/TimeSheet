@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\zeine\\Documents\\TimeSheetApplication\\TimesheetAPP\\TimesheetAPP.Core\\TimesheetAPP.Core.csproj": {}
+    "C:\\Users\\zeine\\Documents\\GitHub\\TimeSheet\\TimesheetAPP\\TimesheetAPP.Core\\TimesheetAPP.Core.csproj": {}
   },
   "projects": {
-    "C:\\Users\\zeine\\Documents\\TimeSheetApplication\\TimesheetAPP\\TimesheetAPP.Core\\TimesheetAPP.Core.csproj": {
+    "C:\\Users\\zeine\\Documents\\GitHub\\TimeSheet\\TimesheetAPP\\TimesheetAPP.Core\\TimesheetAPP.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\zeine\\Documents\\TimeSheetApplication\\TimesheetAPP\\TimesheetAPP.Core\\TimesheetAPP.Core.csproj",
+        "projectUniqueName": "C:\\Users\\zeine\\Documents\\GitHub\\TimeSheet\\TimesheetAPP\\TimesheetAPP.Core\\TimesheetAPP.Core.csproj",
         "projectName": "TimesheetAPP.Core",
-        "projectPath": "C:\\Users\\zeine\\Documents\\TimeSheetApplication\\TimesheetAPP\\TimesheetAPP.Core\\TimesheetAPP.Core.csproj",
+        "projectPath": "C:\\Users\\zeine\\Documents\\GitHub\\TimeSheet\\TimesheetAPP\\TimesheetAPP.Core\\TimesheetAPP.Core.csproj",
         "packagesPath": "C:\\Users\\zeine\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\zeine\\Documents\\TimeSheetApplication\\TimesheetAPP\\TimesheetAPP.Core\\obj\\",
+        "outputPath": "C:\\Users\\zeine\\Documents\\GitHub\\TimeSheet\\TimesheetAPP\\TimesheetAPP.Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -44,6 +44,48 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "MailKit": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[8.0.1, )"
+            },
+            "Microsoft.AspNetCore.Identity": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.1, )"
+            },
+            "Microsoft.Extensions.Configuration": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Microsoft.TeamFoundationServer.Client": {
+              "target": "Package",
+              "version": "[16.205.1, )"
+            },
+            "Microsoft.TeamFoundationServer.ExtendedClient": {
+              "target": "Package",
+              "version": "[16.205.1, )"
+            },
+            "Microsoft.VisualStudio.Services.Client": {
+              "target": "Package",
+              "version": "[16.205.1, )"
+            },
+            "Microsoft.VisualStudio.Services.InteractiveClient": {
+              "target": "Package",
+              "version": "[16.205.1, )"
+            },
+            "MimeKit": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

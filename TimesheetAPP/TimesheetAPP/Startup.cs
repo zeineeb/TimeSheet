@@ -7,12 +7,13 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using TimesheetAPP.Infrastructure.Data;
+using TimesheetAPP.Core.Services;
 
 namespace TimesheetAPP
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+      /*  public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
@@ -21,7 +22,7 @@ namespace TimesheetAPP
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
+          services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Default")));
 
             services.AddControllersWithViews();
@@ -71,6 +72,6 @@ namespace TimesheetAPP
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
-        }
+        }*/
     }
 }
