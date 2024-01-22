@@ -22,16 +22,10 @@ namespace TimesheetAPP.Core.Entities
         [ForeignKey(nameof(ConsomationId))]
         public int? ConsomationId { get; set; }
         public virtual Consomation? Consomation { get; set; }
-        public string? Otp { get; set; }
 
         public bool? IsVerified { get; set; }
-
-
-
-
-
-
-
+        public string? ResetToken { get; set; }
+        public string? NewPassword { get; set; }
 
 
     }

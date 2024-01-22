@@ -9,8 +9,7 @@ namespace TimesheetAPP.Core.Entities
 {
     public class ApplicationUser : IdentityUser
     {
-     public string? Otp { get; set; }
-     public bool? EmailConfirmed { get; set; }
+
 
     }
 }

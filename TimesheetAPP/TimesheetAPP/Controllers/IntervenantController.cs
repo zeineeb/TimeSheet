@@ -46,11 +46,13 @@ namespace TimesheetAPP.Controllers
             return Ok(result);
         }
 
-        [HttpPost("verify-email/{email}/{otp}")]
-        public async Task<IActionResult> VerifyEmail(string email , string otp)
+        [HttpPost("verify-email")]
+        public async Task<IActionResult> VerifyEmail([FromQuery] string email, [FromQuery] string otp)
         {
             try
             {
+               
+
                 var result = await intervenantService.VerifyEmail(email, otp);
                 return Ok(result);
             }
@@ -61,6 +63,20 @@ namespace TimesheetAPP.Controllers
             }
         }
 
+
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> ForgotPassword([FromBody] Intervenant model)
+        {
+            var result = await intervenantService.ForgotPassword(model.Email);
+            return Ok(result);
+        }
+
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] Intervenant model)
+        {
+            var result = await intervenantService.ResetPassword(model.Email, model.ResetToken, model.NewPassword);
+            return Ok(result);
+        }
 
         [HttpGet]
         [Route("GetAll")]

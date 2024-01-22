@@ -24,8 +24,6 @@ namespace TimesheetAPP
             
             services.AddScoped<IDbContext, ApplicationDbContext>();
             services.AddScoped<IEmailService, EmailService>();
-            services.AddScoped<IOtpService, OtpService>();
-
         }
     }
 }

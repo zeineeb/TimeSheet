@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TimesheetAPP.Core")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+522b20035400238c5e84c309a24339f614b979e4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c41841e7af0b5450378f08f46f432e29524d7cf8")]
 [assembly: System.Reflection.AssemblyProductAttribute("TimesheetAPP.Core")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TimesheetAPP.Core")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json.Linq;
 using Org.BouncyCastle.Crypto;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -21,16 +22,14 @@ namespace TimesheetAPP.Core.Services
         private readonly IConfiguration _configuration;
         private readonly IDbContext _context;
         private readonly IEmailService _emailService;
-        private readonly IOtpService _otpService;
 
-        public IntervenatService(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, IDbContext context, IEmailService emailService, IOtpService otpService)
+        public IntervenatService(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, IDbContext context, IEmailService emailService)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
             _configuration = configuration;
             _context = context;
             _emailService = emailService;
-            _otpService = otpService;
         }
         public async Task<IEnumerable<Intervenant>> GetAllUsers()
         {
@@ -78,7 +77,7 @@ namespace TimesheetAPP.Core.Services
             if (user != null && await userManager.CheckPasswordAsync(user, model.Password))
             {
                 // Check if the user is verified and OTP is null
-                if ((user.EmailConfirmed == true) && (user.Otp == null))
+                if (user.EmailConfirmed == true)
                 {
                     var userRoles = await userManager.GetRolesAsync(user);
 
@@ -142,22 +141,15 @@ namespace TimesheetAPP.Core.Services
                 return new Responses { Status = "Error", Message = "User already exists!" };
 
             var emailExists = await userManager.FindByNameAsync(model.Email);
-            if (userExists != null)
+            if (emailExists != null)
                 return new Responses { Status = "Error", Message = "Email already exists!" };
-
-            var otp = _otpService.GenerateOtp();
-
-            // Send OTP via Email
-            await _emailService.SendEmailAsync(model.Email, "Your OTP", $"Your OTP: {otp}");
 
             var intervenant = new Intervenant
             {
                 Username = model.Username,
                 Email = model.Email,
                 Password = model.Password,
-                Otp = otp,
                 IsVerified = false
-
                 // Set other properties as needed
             };
             _context.Intervenants.Add(intervenant);
@@ -168,42 +160,112 @@ namespace TimesheetAPP.Core.Services
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = model.Username,
-                Otp = otp,
                 EmailConfirmed = false
             };
+
             var result = await userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
             {
                 var firstError = result.Errors.FirstOrDefault()?.Description ?? "Unknown error";
                 return new Responses { Status = "Error", Message = $"User creation failed: {firstError}" };
             }
-            return new Responses { Status = "Success", Message = "User created successfully!" };
+
+            // Generate email confirmation token for the user
+            var emailConfirmationToken = await userManager.GenerateEmailConfirmationTokenAsync(user);
+            
+
+
+            // Send email containing the token
+            await _emailService.SendEmailAsync(model.Email, "Confirm Your Email", $"Your email confirmation token: {emailConfirmationToken}");
+
+            return new Responses { Status = "Success", Message = "User created successfully! Please check your email to confirm your account." };
+
         }
 
-        public async Task<object> VerifyEmail(string userEmail, string otp)
+        public async Task<object> VerifyEmail(string userEmail, string token)
         {
-            var user = await userManager.FindByEmailAsync(userEmail);
-
-            if (user == null)
-                return new Responses { Status = "Error", Message = "User not found!" };
-
-            if (user.Otp != otp)
-                return new Responses { Status = "Error", Message = "Invalid OTP!" };
-
-            // OTP is valid, mark user as verified
-            user.EmailConfirmed = true;
-            user.Otp = null;
-
-            await userManager.UpdateAsync(user);
-
-            var intervenant = await _context.Intervenants.FirstOrDefaultAsync(i => i.Email == userEmail);
-            if (intervenant != null)
+            try
             {
-                intervenant.IsVerified = true;
-                intervenant.Otp = null;
-                await _context.SaveChangesAsync();
+                var user = await userManager.FindByEmailAsync(userEmail);
+
+                if (user == null)
+                    return new Responses { Status = "Error", Message = "Email verification failed. User not found!" };
+
+                // Verify email using the token
+                var result = await userManager.ConfirmEmailAsync(user, token);
+
+                if (!result.Succeeded)
+                {
+                    // Log the specific reason for verification failure
+                    var errorMessage = result.Errors.FirstOrDefault()?.Description ?? "Unknown error";
+                    return new Responses { Status = "Error", Message = $"Email verification failed: {errorMessage}" };
+                }
+
+                // Email verification succeeded, update your local entities if needed
+                var intervenant = await _context.Intervenants.FirstOrDefaultAsync(i => i.Email == userEmail);
+                if (intervenant != null)
+                {
+                    intervenant.IsVerified = true;
+                    await _context.SaveChangesAsync();
+                }
+
+                return new Responses { Status = "Success", Message = "Email verified successfully!" };
             }
-            return new Responses { Status = "Success", Message = "Email verified successfully!" };
+            catch (Exception ex)
+            {
+                return new Responses { Status = "Error", Message = "An error occurred while processing the request." };
+            }
         }
+
+        public async Task<object> ForgotPassword(string userEmail)
+        {
+            try
+            {
+                var user = await userManager.FindByEmailAsync(userEmail);
+
+                if (user == null)
+                    return new Responses { Status = "Error", Message = "Password reset request failed. User not found!" };
+
+                // Generate password reset token
+                var resetToken = await userManager.GeneratePasswordResetTokenAsync(user);
+
+                // Send email containing the reset token
+                await _emailService.SendEmailAsync(userEmail, "Password Reset", $"Your password reset token: {resetToken}");
+
+                return new Responses { Status = "Success", Message = "Password reset token sent successfully! Check your email." };
+            }
+            catch (Exception ex)
+            {
+                return new Responses { Status = "Error", Message = "An error occurred while processing the request." };
+            }
+        }
+
+        public async Task<object> ResetPassword(string userEmail, string resetToken, string newPassword)
+        {
+            try
+            {
+                var user = await userManager.FindByEmailAsync(userEmail);
+
+                if (user == null)
+                    return new Responses { Status = "Error", Message = "Password reset failed. User not found!" };
+
+                // Reset password using the token
+                var result = await userManager.ResetPasswordAsync(user, resetToken, newPassword);
+
+                if (!result.Succeeded)
+                {
+                    // Log the specific reason for reset failure
+                    var errorMessage = result.Errors.FirstOrDefault()?.Description ?? "Unknown error";
+                    return new Responses { Status = "Error", Message = $"Password reset failed: {errorMessage}" };
+                }
+
+                return new Responses { Status = "Success", Message = "Password reset successfully!" };
+            }
+            catch (Exception ex)
+            {
+                return new Responses { Status = "Error", Message = "An error occurred while processing the request." };
+            }
+        }
+
     }
 }
